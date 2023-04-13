@@ -8,16 +8,27 @@ export interface State {
     fromLanguage: FromLanguage,
     toLanguage: Language,
     fromText: string,
+    toText: string,
     result: string,
     loading: boolean
 }
 
+export enum ActionType {
+    SetFromLanguage = 'SET_FROM_LANGUAGE',
+    SetToLanguage = 'SET_TO_LANGUAGE',
+    SetFromText = 'SET_FROM_TEXT',
+    SetToText = 'SET_TO_TEXT',
+    SetResult = 'SET_RESULT',
+    SwapLanguages = 'SWAP_LANGUAGES'
+}
+
 export type Action =
-   | { type: 'SET_FROM_LANGUAGE', payload: FromLanguage }
-   | { type: 'INTERCHANGE_LANGUAGES' }
-   | { type: 'SET_TO_LANGUAGE', payload: Language }
-   | { type: 'SET_FROM_TEXT', payload: string }
-   | { type: 'SET_RESULT', payload: string }
+   | { type: ActionType.SetFromLanguage, payload: FromLanguage }
+   | { type: ActionType.SwapLanguages }
+   | { type: ActionType.SetToLanguage, payload: Language }
+   | { type: ActionType.SetFromText, payload: string }
+   | { type: ActionType.SetToText, payload: string }
+   | { type: ActionType.SetResult, payload: string }
 
 export enum TranslationType {
     From = 'from',

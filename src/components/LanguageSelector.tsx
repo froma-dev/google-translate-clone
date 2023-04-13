@@ -3,6 +3,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import {AUTO_LANGUAGE, DETECT_LANGUAGE, SUPPORTED_LANGUAGES} from "../constants";
 import React from 'react';
 import {type FromLanguage, type Language, TranslationType} from '../types.d';
+import {Stack} from "react-bootstrap";
 
 // Las props pueden ser de dos tipos: "from language" o "to language".
 type Props =
@@ -19,6 +20,7 @@ export const LanguageSelector = ({ onClick, title, type }: Props) => {
     }
 
     return (
+        <Stack direction="horizontal">
         <DropdownButton onSelect={handleSelect} id="dropdown-basic-button" title={title}>
             {type === TranslationType.From && <Dropdown.Item eventKey={AUTO_LANGUAGE}>{DETECT_LANGUAGE}</Dropdown.Item>}
 
@@ -34,6 +36,7 @@ export const LanguageSelector = ({ onClick, title, type }: Props) => {
                 })
             }
         </DropdownButton>
+        </Stack>
     );
 
     // return (

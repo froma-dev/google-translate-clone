@@ -70,12 +70,18 @@ button:focus-visible {
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    color: #5e84a2;
+    color: #d2d6da;
     background-color: #000;
   }
+
+  body {
+    color: #d2d6da;
+  }
+
   a:hover {
     color: #747bff;
   }
+
   button {
     background-color: #202020;
   }
