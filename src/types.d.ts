@@ -1,25 +1,25 @@
-import {AUTO_LANGUAGE, type SUPPORTED_LANGUAGES} from "./constants";
+import { type AUTO_LANGUAGE, type SUPPORTED_LANGUAGES } from './constants'
 
-export type Language = keyof typeof SUPPORTED_LANGUAGES;
-export type AutoLanguage = typeof AUTO_LANGUAGE;
-export type FromLanguage = Language | AutoLanguage;
+export type Language = keyof typeof SUPPORTED_LANGUAGES
+export type AutoLanguage = keyof typeof AUTO_LANGUAGE
+export type FromLanguage = Language | AutoLanguage
 
 export interface State {
-    fromLanguage: FromLanguage,
-    toLanguage: Language,
-    fromText: string,
-    toText: string,
-    result: string,
-    loading: boolean
+  fromLanguage: FromLanguage
+  toLanguage: Language
+  fromText: string
+  toText: string
+  result: string
+  loading: boolean
 }
 
 export enum ActionType {
-    SetFromLanguage = 'SET_FROM_LANGUAGE',
-    SetToLanguage = 'SET_TO_LANGUAGE',
-    SetFromText = 'SET_FROM_TEXT',
-    SetToText = 'SET_TO_TEXT',
-    SetResult = 'SET_RESULT',
-    SwapLanguages = 'SWAP_LANGUAGES'
+  SetFromLanguage = 'SET_FROM_LANGUAGE',
+  SetToLanguage = 'SET_TO_LANGUAGE',
+  SetFromText = 'SET_FROM_TEXT',
+  SetToText = 'SET_TO_TEXT',
+  SetResult = 'SET_RESULT',
+  SwapLanguages = 'SWAP_LANGUAGES'
 }
 
 export type Action =
@@ -31,6 +31,6 @@ export type Action =
    | { type: ActionType.SetResult, payload: string }
 
 export enum TranslationType {
-    From = 'from',
-    To = 'to'
+  From = 'from',
+  To = 'to'
 }
