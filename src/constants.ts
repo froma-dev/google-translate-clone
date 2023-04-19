@@ -17,3 +17,4 @@ export const AUTO = 'auto'
 
 export const TEXT_AREA_FROM_PLACEHOLDER = 'Translate'
 export const TEXT_AREA_TO_PLACEHOLDER = 'Translation'
+export const LOADING_TEXT = 'Loading...'

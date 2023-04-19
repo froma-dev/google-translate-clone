@@ -2,14 +2,39 @@ import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { useStore } from './hooks/useStore'
 import { Button, Col, Container, Row, Stack } from 'react-bootstrap'
-import { AUTO, TEXT_AREA_FROM_PLACEHOLDER, TEXT_AREA_TO_PLACEHOLDER } from './constants'
+import { AUTO } from './constants'
 import { SwapIcon } from './components/icons'
 import { LanguageSelector } from './components/LanguageSelector'
 import { TranslationType } from './types.d'
 import { TextArea } from './components/TextArea'
+import { useEffect } from 'react'
+import { translate } from './services/translate'
 
 function App () {
-  const { fromLanguage, fromText, setFromText, setFromLanguage, setToLanguage, swapLanguages, toLanguage, result, setResult } = useStore()
+  const {
+    fromLanguage,
+    fromText,
+    loading,
+    setFromText,
+    setFromLanguage,
+    setToLanguage,
+    swapLanguages,
+    toLanguage,
+    result,
+    setResult
+  } = useStore()
+
+  useEffect(() => {
+    if (fromText === '') return
+
+    translate({ fromLanguage, toLanguage, text: fromText })
+      .then(result => {
+        if (result == null) return
+
+        setResult(result)
+      })
+      .catch(error => { setResult(error) })
+  }, [fromText, fromLanguage, toLanguage])
 
   return (
       <Container fluid>
@@ -22,7 +47,11 @@ function App () {
                           type={TranslationType.From}
                           selectedLanguage={fromLanguage}
                       />
-                      <TextArea type={TranslationType.From} placeholder={TEXT_AREA_FROM_PLACEHOLDER} onChangeHandler={setFromText} value={fromText}></TextArea>
+                      <TextArea
+                          type={TranslationType.From}
+                          onChangeHandler={setFromText}
+                          value={fromText}
+                          loading={loading} />
                   </Stack>
               </Col>
               <Col xs='auto'>
@@ -43,7 +72,6 @@ function App () {
                       />
                       <TextArea
                           type={TranslationType.To}
-                          placeholder={TEXT_AREA_TO_PLACEHOLDER}
                           onChangeHandler={setResult}
                           value={result}
                       />

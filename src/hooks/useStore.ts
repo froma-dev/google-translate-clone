@@ -16,7 +16,7 @@ const initialState: State = {
 // 2- Create reducer.
 function reducer (state: State, action: Action) {
   const { type } = action
-  const { fromLanguage, toLanguage } = state
+  const { fromLanguage, toLanguage, fromText } = state
 
   if (type === ActionType.SwapLanguages) {
     if (fromLanguage === toLanguage || fromLanguage === AUTO) {
@@ -31,16 +31,28 @@ function reducer (state: State, action: Action) {
   }
 
   if (type === ActionType.SetFromLanguage) {
+    if (fromLanguage === action.payload) return state
+
+    const loading = fromText !== ''
+
     return {
       ...state,
-      fromLanguage: action.payload
+      fromLanguage: action.payload,
+      result: '',
+      loading
     }
   }
 
   if (type === ActionType.SetToLanguage) {
+    if (toLanguage === action.payload) return state
+
+    const loading = fromText !== ''
+
     return {
       ...state,
-      toLanguage: action.payload
+      toLanguage: action.payload,
+      result: '',
+      loading
     }
   }
 
