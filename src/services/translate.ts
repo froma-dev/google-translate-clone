@@ -58,9 +58,73 @@ export async function translate ({ fromLanguage, toLanguage, text }: TranslatePr
     model: defaultModelID,
     messages: [...messages, {
       role: ChatCompletionRequestMessageRoleEnum.User,
-      content: `${text} {{${fromCode}} [[${toCode}]]`
+      content: `${text} {{${fromCode}}} [[${toCode}]]`
     }]
   })
 
   return completion.data.choices[0]?.message?.content
+}
+
+export async function translateApi ({ fromLanguage, toLanguage, text }: TranslateProps) {
+  if (fromLanguage === toLanguage) return text
+
+  const messages = [
+    {
+      role: ChatCompletionRequestMessageRoleEnum.System,
+      content: 'You are an AI that translates text. You receive a text from the user. Do not answer, just translate the text.' +
+          'The original language is surrounded by `{{` and `}}`. You can also receive {{Detect Language}} which means you have to detect the language' +
+          'The language you translate is surrounded by `[[` and `]]`.'
+    },
+    {
+      role: ChatCompletionRequestMessageRoleEnum.User,
+      content: `Hola mundo {{Español}} [[English]]: ${text}`
+      // content: `Hola mundo {{${fromLanguage}}} to [[${toLanguage}]]: ${text}`
+    },
+    {
+      role: ChatCompletionRequestMessageRoleEnum.Assistant,
+      content: 'Hello World'
+    },
+    {
+      role: ChatCompletionRequestMessageRoleEnum.User,
+      content: 'How are you? {{Detect Language}} [[Deutsch]]'
+    },
+    {
+      role: ChatCompletionRequestMessageRoleEnum.Assistant,
+      content: 'Wie geht es dir?'
+    },
+    {
+      role: ChatCompletionRequestMessageRoleEnum.User,
+      content: 'Nu {{Detect Language}} [[English]]'
+    },
+    {
+      role: ChatCompletionRequestMessageRoleEnum.Assistant,
+      content: 'Now'
+    }
+  ]
+  const fromCode = ALL_LANGUAGES[fromLanguage]
+  const toCode = ALL_LANGUAGES[toLanguage]
+
+  /* const completion = await openai.createChatCompletion({
+    model: defaultModelID,
+    messages: [...messages, {
+      role: ChatCompletionRequestMessageRoleEnum.User,
+      content: `${text} {{${fromCode}}} [[${toCode}]]`
+    }]
+  }) */
+
+  const completion = await fetch('https://toke-63923d6a3346.herokuapp.com/translate', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      model: defaultModelID,
+      messages: [...messages, {
+        role: ChatCompletionRequestMessageRoleEnum.User,
+        content: `${text} {{${fromCode}}} [[${toCode}]]`
+      }]
+    })
+  }).then(async (res) => await res.json())
+
+  return completion.choices[0]?.message?.content
 }

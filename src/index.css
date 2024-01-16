@@ -66,3 +66,8 @@ body {
 .dropdown-toggle {
   width: 100%;
 }
+
+.clipboard-button,
+.speaker-button {
+  color: #1a1a1a;
+}

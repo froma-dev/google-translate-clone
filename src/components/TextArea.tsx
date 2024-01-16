@@ -10,19 +10,26 @@ interface Props {
   value: string
 }
 
-interface placeholderProps { type: TranslationType, loading?: boolean }
+interface placeholderProps {
+  type: TranslationType
+  loading?: boolean
+}
 
 const commonStyles = { border: 0, height: '200px', resize: 'none' }
 
 export const TextArea = ({ onChangeHandler, loading, value, type }: Props) => {
   const styles = type === TranslationType.From
     ? commonStyles
-    : { ...commonStyles, backgroundColor: '#c8c8c8' }
+    : { ...commonStyles, backgroundColor: '#f5f5f5' }
 
   const getPlaceholder = ({ type, loading }: placeholderProps) => {
-    console.log(loading)
-    if (type === TranslationType.From) return TEXT_AREA_FROM_PLACEHOLDER
-    if (loading === true) return LOADING_TEXT
+    if (type === TranslationType.From) {
+      return TEXT_AREA_FROM_PLACEHOLDER
+    }
+
+    if (loading === true) {
+      return LOADING_TEXT
+    }
 
     return TEXT_AREA_TO_PLACEHOLDER
   }
@@ -32,14 +39,16 @@ export const TextArea = ({ onChangeHandler, loading, value, type }: Props) => {
   }
 
   return (
-        <Form.Control
-            as='textarea'
-            placeholder={getPlaceholder({ type, loading })}
-            autoFocus={type === TranslationType.From}
-            style={styles}
-            value={value}
-            onChange={handleChange}
-            disabled={type === TranslationType.To}
-        />
+        <>
+            <Form.Control
+                as='textarea'
+                placeholder={getPlaceholder({ type, loading })}
+                autoFocus={type === TranslationType.From}
+                style={styles}
+                value={value}
+                onChange={handleChange}
+                disabled={type === TranslationType.To}
+            />
+        </>
   )
 }
