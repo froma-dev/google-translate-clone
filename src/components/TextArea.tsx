@@ -1,7 +1,7 @@
 import { Form } from 'react-bootstrap'
 import { TranslationType } from '../types.d'
 import { LOADING_TEXT, TEXT_AREA_FROM_PLACEHOLDER, TEXT_AREA_TO_PLACEHOLDER } from '../constants'
-import React from 'react'
+import React, { type CSSProperties } from 'react'
 
 interface Props {
   type: TranslationType
@@ -15,12 +15,13 @@ interface placeholderProps {
   loading?: boolean
 }
 
-const commonStyles = { border: 0, height: '200px', resize: 'none' }
+const commonStyles: CSSProperties = { border: 0, height: '200px', resize: 'none' }
+const commonStylesStyle: CSSProperties = { ...commonStyles, backgroundColor: '#f5f5f5' }
 
 export const TextArea = ({ onChangeHandler, loading, value, type }: Props) => {
   const styles = type === TranslationType.From
     ? commonStyles
-    : { ...commonStyles, backgroundColor: '#f5f5f5' }
+    : commonStylesStyle
 
   const getPlaceholder = ({ type, loading }: placeholderProps) => {
     if (type === TranslationType.From) {
